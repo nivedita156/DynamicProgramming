@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int minFallingPathHelper(vector<vector<int>>& matrix, int row, int col,
+     vector<vector<int>>&dp){
+         if(row==0 && col<matrix[0].size() && col>=0) return matrix[row][col];  //one row only
+         if(col<0 || col>=matrix[0].size()) return INT_MAX;  //invalid column
+
+         if(dp[row][col]!=INT_MAX) return dp[row][col];
+         return dp[row][col]=matrix[row][col]+min(min(minFallingPathHelper(matrix,row-1,col-1,dp), minFallingPathHelper(matrix,row-1,col,dp)),
+         minFallingPathHelper(matrix,row-1,col+1,dp));
+    }
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int rows=matrix.size(), cols=matrix[0].size();
+        vector<vector<int>> dp(rows+1, vector<int>(cols+1,INT_MAX));
+        int ans=INT_MAX;
+        for(int col=0;col<cols;col++){
+            ans=min(ans,minFallingPathHelper(matrix,rows-1,col,dp));  //starting from last row
+        }
+        return ans;
+    }
+};
