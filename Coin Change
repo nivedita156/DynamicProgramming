@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount<1) return 0;
+        int minCoinsdp[amount+1];
+
+        minCoinsdp[0]=0;
+
+        for(int i=1;i<=amount;i++){
+            minCoinsdp[i]=INT_MAX;
+
+            for(int coin: coins){
+                if(coin<=i && minCoinsdp[i-coin]!=INT_MAX){
+                    minCoinsdp[i]=min(minCoinsdp[i],1+minCoinsdp[i-coin]);
+                }
+            }
+        }
+        if(minCoinsdp[amount]==INT_MAX) return -1;
+
+        return minCoinsdp[amount];
+        
+    }
+};
